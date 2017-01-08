@@ -1,0 +1,1 @@
+Use (Nagle's)[https://en.wikipedia.org/wiki/Nagle's_algorithm] algorithm to avoid performance loss:
