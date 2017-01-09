@@ -29,9 +29,9 @@ import java.lang.annotation.Target;
  * A @PacketOpcode annotation must be included at the top of any
  * class that is supposed to be treated as a packet, the @PacketOpcode
  * annotation declares which id the packet will be handled by.
- * 
+ * <p>
  * Ex.
- * 
+ * <p>
  * <pre>
  *  --+--------------+------------------------+---
  *    |  Packet ID   |     @PacketOpcode      |
@@ -43,11 +43,11 @@ import java.lang.annotation.Target;
  *  --+--------------+------------------------+---
  *    |      3       |  @PacketOpcode(3)      |
  *  --+--------------+------------------------+---
- *  
+ *
  * @author Christian Tucker
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface PacketOpcode {
-	int value();
+    int value();
 }

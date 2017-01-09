@@ -11,7 +11,8 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
 
 /**
  * Created by Miu on 09/01/2017.
