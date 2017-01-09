@@ -24,8 +24,8 @@ public class TcpServerTest {
 
     @Before
     public void before() throws IOException {
-        this.server = new TcpServer(80, false);
-        this.client = new Socket("127.0.0.1", 80);
+        this.server = new TcpServer(9850, false);
+        this.client = new Socket("127.0.0.1", 9850);
         this.client.setTcpNoDelay(true);
     }
 
