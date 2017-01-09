@@ -1,6 +1,12 @@
 package net.mmoserver.tcp;
 
+import net.mmoserver.common.Log;
+import net.mmoserver.common.Session;
+import net.mmoserver.packet.Packet;
+import net.mmoserver.packet.PacketOpcode;
+
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -8,11 +14,6 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-
-import net.mmoserver.common.Log;
-import net.mmoserver.common.Session;
-import net.mmoserver.packet.Packet;
-import net.mmoserver.packet.PacketOpcode;
 
 /*
 * Copyright (c) 2015
@@ -48,7 +49,7 @@ public class TcpProcessor implements Runnable {
 			if((serverSocket.isOpen()) && (selector.isOpen())) {
 				try {
 					serverSocket.configureBlocking(false);
-					serverSocket.bind(new InetSocketAddress(TcpServer.getPort()));
+					serverSocket.bind(new InetSocketAddress("0.0.0.0",TcpServer.getPort()));
 					serverSocket.register(selector, SelectionKey.OP_ACCEPT);
 					Log.info("waiting for connections...");
 					while(!Thread.interrupted()) {
