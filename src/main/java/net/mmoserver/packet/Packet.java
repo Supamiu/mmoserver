@@ -210,7 +210,7 @@ public abstract class Packet {
 	 * @param session	The {@link Session} relative to this {@link Packet}.
 	 * @throws IOException If an error occurs during low level processing.
 	 */
-	abstract void decodeTcp(Session session) throws IOException;
+	protected abstract void decodeTcp(Session session) throws IOException;
 	
 	/**
 	 * Used to process data specific to an {@link PacketOpcode}.
@@ -219,7 +219,7 @@ public abstract class Packet {
 	 * @param udpBuffer	The {@link ByteBuffer} relative to this {@link Packet}.
 	 * 	 * @throws IOException 
 	 */
-	abstract void decodeUdp(Session session, ByteBuffer udpBuffer) throws IOException;
+	protected abstract void decodeUdp(Session session, ByteBuffer udpBuffer) throws IOException;
 	
 	/**
 	 * Returns a collection of {@link Packet}'s relative to their {@link PacketOpcode}'s.
