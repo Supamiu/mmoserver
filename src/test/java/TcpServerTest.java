@@ -24,8 +24,10 @@ public class TcpServerTest {
     private Socket client;
 
     @Before
-    public void before() throws IOException {
+    public void before() throws IOException, InterruptedException {
         this.server = new TcpServer(58008, false);
+        //Waiting few millis before connecting client (server is async, so it will finish init process).
+        Thread.sleep(100);
         this.client = new Socket("127.0.0.1", 58008);
         this.client.setTcpNoDelay(true);
     }
