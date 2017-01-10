@@ -127,7 +127,7 @@ public class Session {
      *
      * @param key The key relative to the {@link Session}
      */
-    public Session(SelectionKey key) {
+    public Session(SelectionKey key) throws IOException {
         this.key = key;
         this.inputBuffer = ByteBuffer.allocate(Config.tcpBufferAllocation);
         this.sessionKey = UUID.randomUUID();
