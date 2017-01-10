@@ -125,7 +125,7 @@ public abstract class Packet {
     public static void send(PacketType type, Session session, int packetId, Object... data) {
         ByteArrayDataOutput preBuffer = ByteStreams.newDataOutput();
         ByteArrayDataOutput postBuffer = ByteStreams.newDataOutput();
-        postBuffer.writeInt((int) packetId);
+        postBuffer.writeInt(packetId);
         if (type == PacketType.UDP) {
             postBuffer.writeLong(session.getSessionKey().getMostSignificantBits());
             postBuffer.writeLong(session.getSessionKey().getLeastSignificantBits());
