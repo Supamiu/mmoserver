@@ -78,7 +78,7 @@ public class TcpServer {
      *
      * @return the thread
      */
-    private static Thread getProcessor() {
+    public static Thread getProcessor() {
         return tcpProcessor;
     }
 
@@ -98,7 +98,7 @@ public class TcpServer {
      *
      * @return The port.
      */
-    static int getPort() {
+    public static int getPort() {
         return serverPort;
     }
 }
