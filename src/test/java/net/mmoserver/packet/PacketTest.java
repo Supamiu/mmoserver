@@ -24,8 +24,10 @@ public class PacketTest {
 
     @Before
     public void before() {
+        Config.enableUDP = false;
         Session.getSessionMap().clear();
         Session.getSessions().clear();
+        Session.bytesOutCurrent = 0;
         Session.bytesOut = 0;
     }
 
@@ -197,15 +199,15 @@ public class PacketTest {
 
     @Test
     public void sendGlobalTestException() throws IOException {
-        final SelectionKey key = mock(SelectionKey.class);
-        final SelectionKey key2 = mock(SelectionKey.class);
+        SelectionKey key = mock(SelectionKey.class);
+        SelectionKey key2 = mock(SelectionKey.class);
 
         SocketAddress address = mock(SocketAddress.class);
         when(address.toString()).thenReturn("127.0.0.1");
         SocketChannel channel = mock(SocketChannel.class);
         when(channel.getRemoteAddress()).thenReturn(address);
         //Even if we throw an exception, it should not be caught here.
-        when(channel.write(any(ByteBuffer.class))).thenThrow(IOException.class);
+        when(channel.write(any(ByteBuffer.class))).thenThrow(new IOException("Testing exceptions"));
 
         when(key.channel()).thenReturn(channel);
         when(key2.channel()).thenReturn(channel);
