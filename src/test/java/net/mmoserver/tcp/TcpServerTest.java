@@ -1,15 +1,13 @@
-import net.mmoserver.common.Session;
+package net.mmoserver.tcp;
+
+import testing.mock.MockPacket;
 import net.mmoserver.packet.Packet;
-import net.mmoserver.packet.PacketOpcode;
-import net.mmoserver.tcp.TcpServer;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import tools.DataSender;
+import testing.tools.DataSender;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -60,14 +58,3 @@ public class TcpServerTest {
     }
 }
 
-@PacketOpcode(10)
-class MockPacket extends Packet {
-
-    @Override
-    public void decodeTcp(Session session) throws IOException {
-    }
-
-    @Override
-    public void decodeUdp(Session session, ByteBuffer udpBuffer) throws IOException {
-    }
-}

@@ -1,4 +1,4 @@
-package tools;
+package testing.tools;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
