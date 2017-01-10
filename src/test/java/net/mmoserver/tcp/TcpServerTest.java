@@ -46,8 +46,6 @@ public class TcpServerTest {
         Packet mockPacket = mock(MockPacket.class);
         Packet.add(mockPacket);
 
-        assertEquals(1, Packet.getPackets().size());
-
         DataSender.send(this.client, 10, "Foo");
 
         Thread.sleep(10);
