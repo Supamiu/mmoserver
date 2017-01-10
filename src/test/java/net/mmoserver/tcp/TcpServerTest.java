@@ -1,5 +1,7 @@
 package net.mmoserver.tcp;
 
+import net.mmoserver.common.Session;
+import org.junit.AfterClass;
 import testing.mock.MockPacket;
 import net.mmoserver.packet.Packet;
 import org.junit.Before;
@@ -34,6 +36,11 @@ public class TcpServerTest {
         }
     }
 
+    @AfterClass
+    public static void after(){
+        Session.getSessions().forEach(Session::close);
+    }
+
     @Test
     public void basicTests(){
         assertEquals(false, TcpServer.usingNagles());
@@ -42,7 +49,7 @@ public class TcpServerTest {
     }
 
     @Test
-    public void globalServerTest() throws IOException, InterruptedException {
+    public void globalServerTest() throws IOException, InterruptedException, IllegalArgumentException {
         Packet mockPacket = mock(MockPacket.class);
         Packet.add(mockPacket);
 

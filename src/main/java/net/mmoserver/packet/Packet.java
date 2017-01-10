@@ -96,22 +96,11 @@ public abstract class Packet {
      */
     public static void sendGlobal(PacketType type, int packetId, Object... data) {
         Session.getSessions().forEach(u -> {
-            Packet.send(type, u, packetId, data);
-        });
-    }
-
-    /**
-     * Sends a packet to all connected accounts, albeit
-     * the account with the specified account id.
-     *
-     * @param type      The type of packet.
-     * @param accountId The id of the account to ignore.
-     * @param packetId  The id of the packet.
-     * @param data      The object[] of data.
-     */
-    public static void sendGlobalAlbeit(PacketType type, int accountId, int packetId, Object... data) {
-        Session.getSessions().forEach(u -> {
-            Packet.send(type, u, packetId, data);
+            try {
+                Packet.send(type, u, packetId, data);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -122,7 +111,7 @@ public abstract class Packet {
      * @param packetId   The id of the packet.
      * @param data       The object[] of data.
      */
-    public static void send(PacketType type, Session session, int packetId, Object... data) {
+    public static void send(PacketType type, Session session, int packetId, Object... data) throws IllegalArgumentException, IOException {
         ByteArrayDataOutput preBuffer = ByteStreams.newDataOutput();
         ByteArrayDataOutput postBuffer = ByteStreams.newDataOutput();
         postBuffer.writeInt(packetId);
@@ -130,55 +119,52 @@ public abstract class Packet {
             postBuffer.writeLong(session.getSessionKey().getMostSignificantBits());
             postBuffer.writeLong(session.getSessionKey().getLeastSignificantBits());
         }
-        try {
-            if (data.length > 0) {
-                for (Object o : data) {
-                    if (o instanceof Integer) {
-                        postBuffer.writeInt((int) o);
-                    } else if (o instanceof Character) {
-                        postBuffer.writeChar((char) o);
-                    } else if (o instanceof String) {
-                        String string = (String) o;
-                        char[] charArray = string.toCharArray();
-                        int length = charArray.length;
-                        postBuffer.writeInt(length);
-                        for (char aCharArray : charArray) {
-                            postBuffer.writeChar(aCharArray);
-                        }
-                    } else if (o instanceof Double) {
-                        postBuffer.writeDouble((double) o);
-                    } else if (o instanceof Float) {
-                        postBuffer.writeFloat((float) o);
-                    } else if (o instanceof Boolean) {
-                        postBuffer.writeByte((byte) (((boolean) o) ? 1 : 0));
-                    } else if (o instanceof Byte) {
-                        postBuffer.writeByte((byte) o);
-                    } else if (o instanceof Long) {
-                        postBuffer.writeLong((long) o);
+        if (data.length > 0) {
+            for (Object o : data) {
+                if (o instanceof Integer) {
+                    postBuffer.writeInt((int) o);
+                } else if (o instanceof Character) {
+                    postBuffer.writeChar((char) o);
+                } else if (o instanceof String) {
+                    String string = (String) o;
+                    char[] charArray = string.toCharArray();
+                    int length = charArray.length;
+                    postBuffer.writeInt(length);
+                    for (char aCharArray : charArray) {
+                        postBuffer.writeChar(aCharArray);
                     }
+                } else if (o instanceof Double) {
+                    postBuffer.writeDouble((double) o);
+                } else if (o instanceof Float) {
+                    postBuffer.writeFloat((float) o);
+                } else if (o instanceof Boolean) {
+                    postBuffer.writeByte((byte) (((boolean) o) ? 1 : 0));
+                } else if (o instanceof Byte) {
+                    postBuffer.writeByte((byte) o);
+                } else if (o instanceof Long) {
+                    postBuffer.writeLong((long) o);
                 }
             }
-
-            preBuffer.writeInt(postBuffer.toByteArray().length);
-            preBuffer.write(postBuffer.toByteArray());
-            ByteBuffer writable = ByteBuffer.wrap(preBuffer.toByteArray());
-
-            if (type == PacketType.TCP) {
-                Log.debug("Server sent " + writable.limit() + " bytes with an opcode of " + packetId);
-                int bytes = session.getChannel().write(writable);
-                Session.bytesOut += bytes;
-                Session.bytesOutCurrent += bytes;
-            } else if (type == PacketType.UDP) {
-                if (Config.enableUDP) {
-                    new DatagramPacket(writable.array(), writable.array().length, InetAddress.getByName(session.getChannel().getRemoteAddress().toString()), Config.datagramPort);
-                } else {
-                    Log.error("UDP is currently disabled, please check configurations.");
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+        preBuffer.writeInt(postBuffer.toByteArray().length);
+        preBuffer.write(postBuffer.toByteArray());
+        ByteBuffer writable = ByteBuffer.wrap(preBuffer.toByteArray());
+
+        if (type == PacketType.TCP) {
+            Log.debug("Server sent " + writable.limit() + " bytes with an opcode of " + packetId);
+            int bytes = session.getChannel().write(writable);
+            Session.bytesOut += bytes;
+            Session.bytesOutCurrent += bytes;
+        } else if (type == PacketType.UDP) {
+            if (Config.enableUDP) {
+                new DatagramPacket(writable.array(), writable.array().length, InetAddress.getByName(session.getChannel().getRemoteAddress().toString()), Config.datagramPort);
+            } else {
+                throw new IllegalArgumentException("UDP is currently disabled, please check configurations.");
+            }
+        }
+
+
     }
 
     /**
