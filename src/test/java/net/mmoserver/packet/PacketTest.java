@@ -121,6 +121,7 @@ public class PacketTest {
         Packet.send(Packet.PacketType.TCP, session, 20, 50D);
         Packet.send(Packet.PacketType.TCP, session, 20, 0x50);
         Packet.send(Packet.PacketType.TCP, session, 20, false);
+        Packet.send(Packet.PacketType.TCP, session, 20, (byte)8);
 
         verify(channel, times(8)).write(any(ByteBuffer.class));
     }
