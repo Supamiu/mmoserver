@@ -98,6 +98,16 @@ public class PacketTest {
 
         assertEquals(expectedData.array().length, Session.bytesOut);
         verify(channel, times(1)).write(any(ByteBuffer.class));
+
+        Packet.send(Packet.PacketType.TCP, session, 20, (int) 50);
+        Packet.send(Packet.PacketType.TCP, session, 20, 50L);
+        Packet.send(Packet.PacketType.TCP, session, 20, (char)'a');
+        Packet.send(Packet.PacketType.TCP, session, 20, 50f);
+        Packet.send(Packet.PacketType.TCP, session, 20, 50D);
+        Packet.send(Packet.PacketType.TCP, session, 20, 0x50);
+        Packet.send(Packet.PacketType.TCP, session, 20, false);
+
+        verify(channel, times(8)).write(any(ByteBuffer.class));
     }
 
     @Test
