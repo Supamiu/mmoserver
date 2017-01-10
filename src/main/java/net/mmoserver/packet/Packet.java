@@ -79,13 +79,11 @@ public abstract class Packet {
      * @param packetOpcode The {@link PacketOpcode} relative to this {@link Packet}.
      * @param udpBuffer    The {@link ByteBuffer} relative to this {@link Packet}.
      */
-    public static void _decode(Session session, int packetOpcode, ByteBuffer udpBuffer) {
+    public static void _decode(Session session, int packetOpcode, ByteBuffer udpBuffer) throws PacketNotFoundException, IOException {
         try {
             packets.get(packetOpcode).decodeUdp(session, udpBuffer);
         } catch (NullPointerException npe) {
-            Log.error("[UDP] - A packet could not be found with the opcode of: " + packetOpcode);
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new PacketNotFoundException("TCP", packetOpcode);
         }
     }
 

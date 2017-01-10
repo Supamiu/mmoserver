@@ -23,6 +23,7 @@ package net.mmoserver.udp;
 import net.mmoserver.common.Config;
 import net.mmoserver.common.Session;
 import net.mmoserver.packet.Packet;
+import net.mmoserver.packet.PacketNotFoundException;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -90,7 +91,7 @@ public class UdpServer implements Runnable {
                 Packet._decode(session, packetId, udpBuffer);
                 udpBuffer.clear();
                 udpBuffer = ByteBuffer.allocateDirect(Config.datagramBlockSize);
-            } catch (IOException e) {
+            } catch (IOException | PacketNotFoundException e) {
                 e.printStackTrace();
             }
         }
