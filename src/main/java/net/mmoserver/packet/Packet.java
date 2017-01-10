@@ -98,8 +98,7 @@ public abstract class Packet {
         Session.getSessions().forEach(u -> {
             try {
                 Packet.send(type, u, packetId, data);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
         });
     }
