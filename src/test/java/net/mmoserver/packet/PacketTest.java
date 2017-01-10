@@ -143,10 +143,14 @@ public class PacketTest {
 
     @Test
     public void sendGlobalTest() throws IOException {
+        Config.enableUDP = true;
         final SelectionKey key = mock(SelectionKey.class);
         final SelectionKey key2 = mock(SelectionKey.class);
 
+        SocketAddress address = mock(SocketAddress.class);
+        when(address.toString()).thenReturn("127.0.0.1");
         SocketChannel channel = mock(SocketChannel.class);
+        when(channel.getRemoteAddress()).thenReturn(address);
 
         when(key.channel()).thenReturn(channel);
         when(key2.channel()).thenReturn(channel);
@@ -158,8 +162,9 @@ public class PacketTest {
         when(channel.write(any(ByteBuffer.class))).thenReturn(expectedData.array().length);
 
         Packet.sendGlobal(Packet.PacketType.TCP, 20, "Test send");
+        Packet.sendGlobal(Packet.PacketType.UDP, 20, "Test send");
 
         assertEquals(expectedData.array().length * 2, Session.bytesOut);
-        verify(channel, times(2)).write(any(ByteBuffer.class));
+        verify(channel, times(4)).write(any(ByteBuffer.class));
     }
 }
