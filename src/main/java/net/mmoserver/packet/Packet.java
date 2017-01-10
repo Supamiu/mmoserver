@@ -57,7 +57,7 @@ public abstract class Packet {
      *
      * @param session The {@link Session} relative to this {@link Packet}.
      */
-    public static void _decode(Session session) {
+    public static void _decode(Session session) throws IOException, PacketNotFoundException {
         session.getInputBuffer().flip();
         session.getInputBuffer().getInt(); // copy trash (packet size)
         int packetOpcode = session.getInputBuffer().getInt();
@@ -65,9 +65,7 @@ public abstract class Packet {
         try {
             packets.get(packetOpcode).decodeTcp(session);
         } catch (NullPointerException npe) {
-            Log.error("[TCP] - A packet could not be found with the opcode of: " + packetOpcode);
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new PacketNotFoundException("TCP", packetOpcode);
         }
     }
 
@@ -183,15 +181,6 @@ public abstract class Packet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static String getString(ByteBuffer buffer) {
-        int length = buffer.getInt();
-        String data = "";
-        for (int i = 0; i < length; i++) {
-            data += buffer.getChar();
-        }
-        return data;
     }
 
     /**
