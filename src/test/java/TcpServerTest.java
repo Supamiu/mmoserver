@@ -2,6 +2,7 @@ import net.mmoserver.common.Session;
 import net.mmoserver.packet.Packet;
 import net.mmoserver.packet.PacketOpcode;
 import net.mmoserver.tcp.TcpServer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import tools.DataSender;
@@ -19,21 +20,31 @@ import static org.mockito.Mockito.mockingDetails;
  */
 public class TcpServerTest {
 
-    private TcpServer server;
-
     private Socket client;
+
+    private static boolean ready = false;
 
     @Before
     public void before() throws IOException, InterruptedException {
-        this.server = new TcpServer(58008, false);
-        //Waiting few millis before connecting client (server is async, so it will finish init process).
-        Thread.sleep(100);
-        this.client = new Socket("127.0.0.1", 58008);
-        this.client.setTcpNoDelay(true);
+        if(!ready) {
+            new TcpServer(58008, false);
+            //Waiting few millis before connecting client (server is async, so it will finish init process).
+            Thread.sleep(100);
+            this.client = new Socket("127.0.0.1", 58008);
+            this.client.setTcpNoDelay(true);
+            ready = true;
+        }
     }
 
     @Test
-    public void test() throws IOException, InterruptedException {
+    public void basicTests(){
+        assertEquals(false, TcpServer.usingNagles());
+        assertEquals(58008, TcpServer.getPort());
+        assertEquals(true, TcpServer.getProcessor() != null);
+    }
+
+    @Test
+    public void globalServerTest() throws IOException, InterruptedException {
         Packet mockPacket = mock(MockPacket.class);
         Packet.add(mockPacket);
 
@@ -44,6 +55,10 @@ public class TcpServerTest {
         Thread.sleep(10);
 
         assertEquals(1, mockingDetails(mockPacket).getInvocations().size());
+
+
+        TcpServer.shutdown();
+        assertEquals(true, TcpServer.getProcessor().isInterrupted());
     }
 }
 
