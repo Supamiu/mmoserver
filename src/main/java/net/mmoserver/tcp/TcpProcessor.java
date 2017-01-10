@@ -3,6 +3,7 @@ package net.mmoserver.tcp;
 import net.mmoserver.common.Log;
 import net.mmoserver.common.Session;
 import net.mmoserver.packet.Packet;
+import net.mmoserver.packet.PacketNotFoundException;
 import net.mmoserver.packet.PacketOpcode;
 
 import java.io.IOException;
@@ -184,7 +185,11 @@ public class TcpProcessor implements Runnable {
             session.getInputBuffer().mark();
         } else {
             session.mark(bytesReceived);
-            Packet._decode(session);
+            try {
+                Packet._decode(session);
+            } catch (PacketNotFoundException e) {
+                e.printStackTrace();
+            }
             session.release();
         }
 
