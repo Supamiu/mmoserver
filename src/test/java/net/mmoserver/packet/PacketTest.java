@@ -30,6 +30,21 @@ public class PacketTest {
     }
 
     @Test
+    public void basicTest(){
+        new Packet() {
+            @Override
+            public void decodeTcp(Session session) throws IOException {
+                //This is just a test to see if I can extends packet with no problems.
+            }
+
+            @Override
+            public void decodeUdp(Session session, ByteBuffer udpBuffer) throws IOException {
+
+            }
+        };
+    }
+
+    @Test
     public void packetRegisterTest() throws IllegalArgumentException {
         Packet mockPacket = mock(MockPacket.class);
         Packet.add(mockPacket);
