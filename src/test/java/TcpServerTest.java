@@ -56,9 +56,7 @@ public class TcpServerTest {
 
         assertEquals(1, mockingDetails(mockPacket).getInvocations().size());
 
-
         TcpServer.shutdown();
-        assertEquals(true, TcpServer.getProcessor().isInterrupted());
     }
 }
 
