@@ -195,10 +195,9 @@ public abstract class Packet {
      *
      * @param packet The packet.
      */
-    public static void add(Packet packet) {
+    public static void add(Packet packet) throws IllegalArgumentException {
         if (packet.getClass().getAnnotation(PacketOpcode.class) == null) {
-            Log.error("Packet: " + packet + " does not contain a PacketOpcodeHeader!");
-            return;
+            throw new IllegalArgumentException("Packet: " + packet + " does not contain a PacketOpcodeHeader!");
         }
         packets.put(packet.getClass().getAnnotation(PacketOpcode.class).value(), packet);
         Log.info("Packet: " + packet + " was successfully added to processing queue.");
