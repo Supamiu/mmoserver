@@ -59,11 +59,7 @@ public class UdpServer implements Runnable {
      * @param port          The port.
      * @param maxPacketSize The max size.
      */
-    public UdpServer() {
-        if (channel != null && channel.isOpen()) {
-            System.err.println("The UDP DatagramChannel is already open.");
-            return;
-        }
+    public UdpServer() throws IOException {
         try {
             this.channel = DatagramChannel.open();
             this.channel.socket().bind(new InetSocketAddress(Config.datagramPort));
