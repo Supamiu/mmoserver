@@ -60,14 +60,10 @@ public class UdpServer implements Runnable {
      * @param maxPacketSize The max size.
      */
     public UdpServer() throws IOException {
-        try {
-            this.channel = DatagramChannel.open();
-            this.channel.socket().bind(new InetSocketAddress(Config.datagramPort));
-            this.udpBuffer = ByteBuffer.allocateDirect(Config.datagramBlockSize);
-            new Thread(this).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.channel = DatagramChannel.open();
+        this.channel.socket().bind(new InetSocketAddress(Config.datagramPort));
+        this.udpBuffer = ByteBuffer.allocateDirect(Config.datagramBlockSize);
+        new Thread(this).start();
     }
 
     /**
