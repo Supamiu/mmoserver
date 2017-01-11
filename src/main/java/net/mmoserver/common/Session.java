@@ -163,16 +163,12 @@ public class Session {
      * Removes all references to the session from collections and closes the
      * associated buffers and channels.
      */
-    public void close() {
-        try {
-            currentSessions.remove(this);
-            sessionMap.remove(sessionKey);
-            inputBuffer = null;
-            getChannel().close();
-            key.attach(null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void close() throws IOException {
+        currentSessions.remove(this);
+        sessionMap.remove(sessionKey);
+        inputBuffer = null;
+        getChannel().close();
+        key.attach(null);
     }
 
     /**
@@ -204,7 +200,7 @@ public class Session {
      * <p>
      * This will also clear the current content in the {@link #inputBuffer}.
      */
-    public void release() {
+    public void release() throws IOException {
         this.header = false;
         this.segmented = false;
         this.blockSize = 0;

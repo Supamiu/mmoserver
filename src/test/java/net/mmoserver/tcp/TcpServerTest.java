@@ -1,11 +1,11 @@
 package net.mmoserver.tcp;
 
 import net.mmoserver.common.Session;
-import org.junit.AfterClass;
-import testing.mock.MockPacket;
 import net.mmoserver.packet.Packet;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+import testing.mock.MockPacket;
 import testing.tools.DataSender;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class TcpServerTest {
 
     @Before
     public void before() throws IOException, InterruptedException {
-        if(!ready) {
+        if (!ready) {
             new TcpServer(58008, false);
             //Waiting few millis before connecting client (server is async, so it will finish init process).
             Thread.sleep(100);
@@ -37,12 +37,18 @@ public class TcpServerTest {
     }
 
     @AfterClass
-    public static void after(){
-        Session.getSessions().forEach(Session::close);
+    public static void after() {
+        Session.getSessions().forEach(session -> {
+            try {
+                session.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Test
-    public void basicTests(){
+    public void basicTests() {
         assertEquals(false, TcpServer.usingNagles());
         assertEquals(58008, TcpServer.getPort());
         assertEquals(true, TcpServer.getProcessor() != null);
