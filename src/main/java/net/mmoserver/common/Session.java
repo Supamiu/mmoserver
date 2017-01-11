@@ -339,4 +339,11 @@ public class Session {
         return getChannel().socket().getLocalAddress();
     }
 
+    /**
+     * Only for testing purpose at the moment.
+     * Sets the current input buffer to null.
+     */
+    public void removeBuffer(){
+        this.inputBuffer = null;
+    }
 }
