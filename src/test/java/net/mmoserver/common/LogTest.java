@@ -67,5 +67,8 @@ public class LogTest {
     public void debug() {
         Log.debug("test");
         assertEquals("[DEBUG]: test" + System.getProperty("line.separator"), outContent.toString());
+        Config.debugging = false;
+        Log.debug("test");
+        assertEquals("[DEBUG]: test" + System.getProperty("line.separator"), outContent.toString());
     }
 }
