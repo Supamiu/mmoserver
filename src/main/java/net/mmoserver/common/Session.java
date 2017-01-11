@@ -189,7 +189,7 @@ public class Session {
      *
      * @param attatchment The {@link Object}.
      */
-    public void attatch(Object attachment) {
+    public void attach(Object attachment) {
         this.attachment = attachment;
     }
 
