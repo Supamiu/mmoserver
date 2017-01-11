@@ -167,7 +167,12 @@ public class Session {
         currentSessions.remove(this);
         sessionMap.remove(sessionKey);
         inputBuffer = null;
-        getChannel().close();
+        try {
+            getChannel().close();
+        }catch(NullPointerException ignored){
+            //Channel seems to be null in certain cases, if it is null then we don't have to close it,
+            // and thus we avoid the exception.
+        }
         key.attach(null);
     }
 
