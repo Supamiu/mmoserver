@@ -43,58 +43,72 @@ import java.util.Iterator;
  */
 public class TcpProcessor implements Runnable {
 
+    private Selector selector;
+    private ServerSocketChannel serverSocket;
+
+    public TcpProcessor() throws IOException {
+        selector = Selector.open();
+        serverSocket = ServerSocketChannel.open();
+    }
+
+    public TcpProcessor(Selector selector, ServerSocketChannel serverSocket) {
+        this.selector = selector;
+        this.serverSocket = serverSocket;
+    }
+
     public void run() {
-        try (Selector selector = Selector.open();
-             ServerSocketChannel serverSocket = ServerSocketChannel.open()) {
-            if ((serverSocket.isOpen()) && (selector.isOpen())) {
-                try {
-                    serverSocket.configureBlocking(false);
-                    serverSocket.bind(new InetSocketAddress("0.0.0.0", TcpServer.getPort()));
-                    serverSocket.register(selector, SelectionKey.OP_ACCEPT);
-                    Log.info("waiting for connections...");
-                    while (!Thread.interrupted()) {
-                        selector.select();
-                        Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
-                        while (keys.hasNext()) {
-                            SelectionKey key = keys.next();
-                            keys.remove();
-                            if (!key.isValid()) {
+        if ((serverSocket.isOpen()) && (selector.isOpen())) {
+            try {
+                serverSocket.configureBlocking(false);
+                serverSocket.bind(new InetSocketAddress("0.0.0.0", TcpServer.getPort()));
+                serverSocket.register(selector, SelectionKey.OP_ACCEPT);
+                Log.info("waiting for connections...");
+                while (!Thread.interrupted()) {
+                    selector.select();
+                    Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+                    while (keys.hasNext()) {
+                        SelectionKey key = keys.next();
+                        keys.remove();
+                        if (!key.isValid()) {
+                            continue;
+                        }
+                        try {
+                            if (key.isAcceptable()) {
+                                acceptKey(key, selector);
+                            } else if (key.isReadable()) {
+                                processData(key);
+                            }
+                        } catch (IOException e) {
+                            if (e.getMessage().equals("An existing connection was forcibly closed by the remote host")) {
+                                Log.info("A connection has been lost for key: " + key);
+                                if ((key.attachment() != null)) {
+                                    ((Session) key.attachment()).close();
+                                } else {
+                                    key.channel().close();
+                                }
+                                key.cancel();
                                 continue;
                             }
-                            try {
-                                if (key.isAcceptable()) {
-                                    acceptKey(key, selector);
-                                } else if (key.isReadable()) {
-                                    processData(key);
-                                }
-                            } catch (IOException e) {
-                                if (e.getMessage().equals("An existing connection was forcibly closed by the remote host")) {
-                                    Log.info("A connection has been lost for key: " + key);
-                                    if ((key.attachment() != null)) {
-                                        ((Session) key.attachment()).close();
-                                    } else {
-                                        key.channel().close();
-                                    }
-                                    key.cancel();
-                                    continue;
-                                }
-                                e.printStackTrace();
-                            }
+                            e.printStackTrace();
                         }
                     }
-                    if (Thread.interrupted()) {
-                        selector.close();
-                        serverSocket.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            } else {
-                Log.error("Failure to initialize the server, perhaps the socket or selector is closed?");
-                Log.info("Socket state: " + ((serverSocket.isOpen() ? "Open" : "Closed")) + " || Selector state: " + ((selector.isOpen() ? "Open" : "Closed")));
+                if (Thread.interrupted()) {
+                    selector.close();
+                    serverSocket.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    selector.close();
+                    serverSocket.close();
+                } catch (IOException ignored) {
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            Log.error("Failure to initialize the server, perhaps the socket or selector is closed?");
+            Log.info("Socket state: " + ((serverSocket.isOpen() ? "Open" : "Closed")) + " || Selector state: " + ((selector.isOpen() ? "Open" : "Closed")));
         }
     }
 

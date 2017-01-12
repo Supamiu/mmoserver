@@ -21,6 +21,8 @@ package net.mmoserver.tcp;
 *   * Policy subject to change.
 */
 
+import java.io.IOException;
+
 /**
  * The {@link TcpServer} class is used to initialize the {@link TcpProcessor}
  * class using a specified port. For more information on TCP based networking
@@ -57,7 +59,7 @@ public class TcpServer {
      * @param port   The port that the server should be listening on.
      * @param nagles If the server should be using <a href="http://en.wikipedia.org/wiki/Nagle%27s_algorithm">Nagles algorithm</a>.
      */
-    public TcpServer(int port, boolean nagles) {
+    public TcpServer(int port, boolean nagles) throws IOException {
         TcpServer.serverPort = port;
         TcpServer.nagles = nagles;
         TcpServer.tcpProcessor = new Thread(new TcpProcessor());

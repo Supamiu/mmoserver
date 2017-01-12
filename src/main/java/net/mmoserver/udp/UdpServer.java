@@ -83,8 +83,7 @@ public class UdpServer implements Runnable {
                 Packet._decode(session, packetId, udpBuffer);
                 udpBuffer.clear();
                 udpBuffer = ByteBuffer.allocateDirect(Config.datagramBlockSize);
-            } catch (IOException | PacketNotFoundException e) {
-                e.printStackTrace();
+            } catch (IOException | PacketNotFoundException ignored) {
             }
         }
     }
