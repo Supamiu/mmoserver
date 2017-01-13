@@ -38,13 +38,7 @@ public class TcpServerTest {
 
     @AfterClass
     public static void after() {
-        Session.getSessions().forEach(session -> {
-            try {
-                session.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        Session.getSessions().clear();
     }
 
     @Test

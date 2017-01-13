@@ -51,6 +51,8 @@ public class UdpServer implements Runnable {
      */
     private ByteBuffer udpBuffer;
 
+    private static Thread thread;
+
     /**
      * Creates an instance of the {@link UdpServer} class which will process all
      * incoming data over the networking pertaining to the UDP socket listening on
@@ -63,7 +65,8 @@ public class UdpServer implements Runnable {
         this.channel = DatagramChannel.open();
         this.channel.socket().bind(new InetSocketAddress(Config.datagramPort));
         this.udpBuffer = ByteBuffer.allocateDirect(Config.datagramBlockSize);
-        new Thread(this).start();
+        UdpServer.thread = new Thread(this);
+        UdpServer.thread.start();
     }
 
     /**
@@ -95,6 +98,13 @@ public class UdpServer implements Runnable {
      */
     public DatagramChannel getChannel() {
         return channel;
+    }
+
+    /**
+     * Basic method to stop the server.
+     */
+    public void stop(){
+        UdpServer.thread.interrupt();
     }
 
 }
