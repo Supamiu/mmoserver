@@ -51,6 +51,8 @@ public class UdpServerTest {
 
         assertEquals(1, mockingDetails(mockPacket).getInvocations().size());
         server.stop();
+
+        Thread.sleep(10);
     }
 
     @Test
