@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/mmoserver.iml" filepath="$PROJECT_DIR$/mmoserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yggdrasil.iml" filepath="$PROJECT_DIR$/yggdrasil.iml" />
     </modules>
   </component>
 </project>
