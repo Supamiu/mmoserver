@@ -1,4 +1,4 @@
-package net.mmoserver.common;
+package net.yggdrasil.common;
 
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 

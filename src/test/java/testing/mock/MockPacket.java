@@ -1,8 +1,8 @@
 package testing.mock;
 
-import net.mmoserver.common.Session;
-import net.mmoserver.packet.Packet;
-import net.mmoserver.packet.PacketOpcode;
+import net.yggdrasil.common.Session;
+import net.yggdrasil.packet.Packet;
+import net.yggdrasil.packet.PacketOpcode;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

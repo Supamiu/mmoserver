@@ -1,8 +1,8 @@
-package net.mmoserver.common;
+package net.yggdrasil.common;
 
-import net.mmoserver.packet.Packet;
-import net.mmoserver.packet.Packet.PacketType;
-import net.mmoserver.tcp.TcpProcessor;
+import net.yggdrasil.packet.Packet;
+import net.yggdrasil.packet.Packet.PacketType;
+import net.yggdrasil.tcp.TcpProcessor;
 
 import java.io.IOException;
 import java.net.InetAddress;

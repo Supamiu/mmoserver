@@ -1,4 +1,4 @@
-package net.mmoserver.packet;
+package net.yggdrasil.packet;
 
 /**
  * Created by Miu on 10/01/2017.

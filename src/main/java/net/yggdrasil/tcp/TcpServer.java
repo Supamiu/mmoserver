@@ -1,4 +1,4 @@
-package net.mmoserver.tcp;
+package net.yggdrasil.tcp;
 
 
 /*

@@ -1,10 +1,10 @@
-package net.mmoserver.tcp;
+package net.yggdrasil.tcp;
 
-import net.mmoserver.common.Log;
-import net.mmoserver.common.Session;
-import net.mmoserver.packet.Packet;
-import net.mmoserver.packet.PacketNotFoundException;
-import net.mmoserver.packet.PacketOpcode;
+import net.yggdrasil.common.Log;
+import net.yggdrasil.common.Session;
+import net.yggdrasil.packet.Packet;
+import net.yggdrasil.packet.PacketNotFoundException;
+import net.yggdrasil.packet.PacketOpcode;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

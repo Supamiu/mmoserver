@@ -1,12 +1,12 @@
-package net.mmoserver.packet;
+package net.yggdrasil.packet;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.mmoserver.common.Config;
-import net.mmoserver.common.Log;
-import net.mmoserver.common.Session;
-import net.mmoserver.tcp.TcpServer;
-import net.mmoserver.udp.UdpServer;
+import net.yggdrasil.common.Config;
+import net.yggdrasil.common.Log;
+import net.yggdrasil.common.Session;
+import net.yggdrasil.tcp.TcpServer;
+import net.yggdrasil.udp.UdpServer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
