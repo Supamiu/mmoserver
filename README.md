@@ -1,4 +1,4 @@
-# mmoserver
+# Yggdrasil
 
 [![codecov](https://codecov.io/gh/Supamiu/mmoserver/branch/master/graph/badge.svg)](https://codecov.io/gh/Supamiu/mmoserver)
 [![Build Status](https://travis-ci.org/Supamiu/mmoserver.svg?branch=master)](https://travis-ci.org/Supamiu/mmoserver)
