@@ -1,7 +1,7 @@
-package net.mmoserver.tcp;
+package net.yggdrasil.tcp;
 
-import net.mmoserver.common.Session;
-import net.mmoserver.packet.Packet;
+import net.yggdrasil.common.Session;
+import net.yggdrasil.packet.Packet;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;

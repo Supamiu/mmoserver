@@ -1,4 +1,4 @@
-package net.mmoserver.common;
+package net.yggdrasil.common;
 
 import org.junit.Test;
 

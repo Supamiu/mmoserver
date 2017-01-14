@@ -1,7 +1,7 @@
-package net.mmoserver.packet;
+package net.yggdrasil.packet;
 
-import net.mmoserver.common.Config;
-import net.mmoserver.common.Session;
+import net.yggdrasil.common.Config;
+import net.yggdrasil.common.Session;
 import org.junit.Before;
 import org.junit.Test;
 import testing.mock.MockPacket;

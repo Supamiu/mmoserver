@@ -1,4 +1,4 @@
-package net.mmoserver.common;
+package net.yggdrasil.common;
 
 /*
 * Copyright (c) 2015

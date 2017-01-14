@@ -1,9 +1,8 @@
-package net.mmoserver.udp;
+package net.yggdrasil.udp;
 
-import net.mmoserver.common.Config;
-import net.mmoserver.common.Session;
-import net.mmoserver.packet.Packet;
-import org.junit.After;
+import net.yggdrasil.common.Config;
+import net.yggdrasil.common.Session;
+import net.yggdrasil.packet.Packet;
 import org.junit.Test;
 import testing.mock.MockPacket;
 import testing.tools.DataSender;
