@@ -11,6 +11,16 @@ import java.util.concurrent.TimeoutException;
  */
 public class RabbitMQMonitor {
 
+    public static void sendWithConnection(Connection connection, MonitoringType type, String message) {
+        try {
+            Channel channel = connection.createChannel();
+            channel.queueDeclare(type.getName(), false, false, false, null);
+            channel.basicPublish("", type.getName(), null, message.getBytes());
+            channel.close();
+        } catch (IOException | TimeoutException ignored) {
+        }
+    }
+
     /**
      * Sends a message to a given queue.
      * <p>
@@ -21,13 +31,6 @@ public class RabbitMQMonitor {
      */
     public static void send(MonitoringType type, String message) {
         Connection connection = RabbitMQConnector.getInstance().getConnection();
-        try {
-            Channel channel = connection.createChannel();
-            channel.queueDeclare(type.getName(), false, false, false, null);
-            channel.basicPublish("", type.getName(), null, message.getBytes());
-            channel.close();
-        } catch (IOException | TimeoutException ignored) {
-        }
-
+        RabbitMQMonitor.sendWithConnection(connection, type, message);
     }
 }

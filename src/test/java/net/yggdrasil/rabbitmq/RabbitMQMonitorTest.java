@@ -3,6 +3,8 @@ package net.yggdrasil.rabbitmq;
 import com.rabbitmq.client.*;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -38,5 +40,14 @@ public class RabbitMQMonitorTest {
                 any(Envelope.class),
                 any(AMQP.BasicProperties.class),
                 eq("coucou".getBytes()));
+    }
+
+    @Test
+    public void exceptionCatchTest() throws Exception {
+        Connection connection = mock(Connection.class);
+        when(connection.createChannel()).thenThrow(IOException.class);
+
+        //Here we don't expect an exception, if one is raised, then the test will fail.
+        RabbitMQMonitor.sendWithConnection(connection, MonitoringType.TESTING, "should error");
     }
 }
