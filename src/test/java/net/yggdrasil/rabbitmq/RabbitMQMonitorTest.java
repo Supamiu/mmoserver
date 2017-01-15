@@ -35,6 +35,8 @@ public class RabbitMQMonitorTest {
 
         RabbitMQMonitor.send(MonitoringType.TESTING, "coucou");
 
+        Thread.sleep(10);
+
         verify(consumer).handleDelivery(
                 any(String.class),
                 any(Envelope.class),
