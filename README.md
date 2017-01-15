@@ -5,4 +5,6 @@
 
 Another mmo server written in Java, trying to create a simple way to add mmo layer to your game.
 
-Forked by hand from Christian Tucker's [OGServer](https://github.com/clasic/OGServer) because of inactivity for 2 years.
+External dependencies:
+
+ - You need to have RabbitMQ installed and running, see `rabbit.properties` file to configure the RabbitMQ connection.
