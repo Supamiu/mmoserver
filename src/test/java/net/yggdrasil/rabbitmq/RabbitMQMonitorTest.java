@@ -31,7 +31,7 @@ public class RabbitMQMonitorTest {
 
         channel.basicConsume("testing", true, consumer);
 
-        RabbitMQMonitor.send("testing", "coucou");
+        RabbitMQMonitor.send(MonitoringType.TESTING, "coucou");
 
         verify(consumer).handleDelivery(
                 any(String.class),
