@@ -9,8 +9,10 @@ public enum MonitoringType {
 
     //Should be used only for testing purpose.
     TESTING("testing"),
-    //Queue for connection state messages.
-    SOCKET_CONNECTION("connection");
+    //Connection state messages.
+    SOCKET_CONNECTION("connection"),
+
+    ;
 
     private String name;
 

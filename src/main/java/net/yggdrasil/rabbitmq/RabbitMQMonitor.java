@@ -13,19 +13,21 @@ public class RabbitMQMonitor {
 
     /**
      * Sends a message to a given queue.
-     *
+     * <p>
      * It creates a new channel for every call, to allow thread safe operations.
      *
-     * @param type The queue type.
+     * @param type    The queue type.
      * @param message The message to be sent.
-     * @throws Exception If anything goes wrong during the publish process and the channel closing one.
      */
-    public static void send(MonitoringType type, String message) throws IOException, TimeoutException {
+    public static void send(MonitoringType type, String message) {
         Connection connection = RabbitMQConnector.getInstance().getConnection();
+        try {
+            Channel channel = connection.createChannel();
+            channel.queueDeclare(type.getName(), false, false, false, null);
+            channel.basicPublish("", type.getName(), null, message.getBytes());
+            channel.close();
+        } catch (IOException | TimeoutException ignored) {
+        }
 
-        Channel channel = connection.createChannel();
-        channel.queueDeclare(type.getName(), false, false, false, null);
-        channel.basicPublish("", type.getName(), null, message.getBytes());
-        channel.close();
     }
 }

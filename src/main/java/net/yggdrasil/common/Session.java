@@ -2,6 +2,8 @@ package net.yggdrasil.common;
 
 import net.yggdrasil.packet.Packet;
 import net.yggdrasil.packet.Packet.PacketType;
+import net.yggdrasil.rabbitmq.MonitoringType;
+import net.yggdrasil.rabbitmq.RabbitMQMonitor;
 import net.yggdrasil.tcp.TcpProcessor;
 
 import java.io.IOException;
@@ -134,6 +136,7 @@ public class Session {
         currentSessions.add(this);
         sessionMap.put(sessionKey, this);
         Log.info("New connection was established, session key: " + sessionKey);
+        RabbitMQMonitor.send(MonitoringType.SOCKET_CONNECTION, sessionKey.toString());
         if (Config.enableUDP) {
             Packet.send(PacketType.TCP, this, 0, sessionKey.getMostSignificantBits(), sessionKey.getLeastSignificantBits());
         }
