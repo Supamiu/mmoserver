@@ -1,8 +1,8 @@
 package testing.mock;
 
-import net.yggdrasil.common.Session;
-import net.yggdrasil.packet.Packet;
-import net.yggdrasil.packet.PacketOpcode;
+import io.ygg.common.Session;
+import io.ygg.packet.Packet;
+import io.ygg.packet.PacketOpcode;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
